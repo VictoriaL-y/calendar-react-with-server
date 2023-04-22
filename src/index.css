@@ -1,0 +1,817 @@
+:root {
+  --main-font-color: #192d18d8;
+  --btn-bg-color: #2c4f2ad8;
+  --hover-active-color: #599954ca;
+  --today-eventTime-AddEventBtnHover-color: #e2ffe0ca;
+  --danger-error-color: #e86464;
+  --danger-error-hover-color: #dea4a4;
+  --placeholder-color: #a5a5a5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#root {
+  background-image: url(https://res.cloudinary.com/devqm7qmb/image/upload/v1679158253/ganapathy-kumar-i8bK-Xon0tk-unsplash_jam4tv.jpg);
+  background-size: cover;
+  background-blend-mode: multiply;
+  box-shadow: inset 0 0 0 50vw rgba(0, 0, 0, 0.4);
+  overflow: auto;
+  font-family: 'Alegreya', serif;
+}
+
+#root .card {
+  position: absolute;
+  background: none;
+  color: #f5f5f5;
+  text-align: center;
+  padding: 2rem;
+}
+
+#root .card .error-weather {
+  width: fit-content;
+  margin: 0 auto;
+  text-align: left;
+}
+
+body .calendar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+}
+
+.description {
+  text-transform: capitalize;
+}
+
+.calendar .row {
+  box-shadow: 0 0 5px 5px black;
+}
+
+.calendar #calendar-table {
+  background-color: white;
+  height: 60vh;
+}
+
+.calendar #calendar-table #buttPrev,
+.calendar #calendar-table #buttNext {
+  position: absolute;
+  border: none;
+  color: var(--btn-bg-color);
+  background: none;
+}
+
+.calendar #calendar-table #buttPrev {
+  left: 25%;
+}
+
+.calendar #calendar-table #buttNext {
+  right: 25%;
+}
+
+.calendar #calendar-table #headerMonth {
+  font-size: 2.2rem;
+  position: relative;
+  height: calc(60vh/8);
+  text-align: center;
+  align-items: center;
+  display: inline-grid;
+}
+
+.calendar #calendar-table #headerMonth,
+.calendar #calendar-table #weekdays {
+  background-color: #fff;
+  color: var(--main-font-color);
+}
+
+.calendar #calendar-table #weekdays {
+  display: flex;
+  height: calc(60vh/8);
+  align-items: center;
+  font-size: 1.4rem;
+}
+
+.calendar #calendar-table #weekdays div {
+  justify-content: center;
+  text-align: center;
+  width: 14.28%;
+}
+
+.calendar #calendar-table #calendarBody {
+  font-size: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.day {
+  width: 14.28%;
+  height: calc(60vh/8);
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calendar .day.today {
+  background-color: var(--today-eventTime-AddEventBtnHover-color);
+}
+
+.calendar .day:not(.padding):hover,
+.calendar .day.today:hover {
+  color: white;
+  background-color: var(--hover-active-color);
+}
+
+.calendar .day.active {
+  position: relative;
+  font-size: 1.8rem;
+  color: white;
+  background-color: var(--hover-active-color) !important;
+}
+
+.calendar .day.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 10px 2px var(--hover-active-color);
+}
+
+/* event class, not today */
+
+.calendar .day.event {
+  position: relative;
+}
+
+.calendar .day.event::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: 25%;
+  height: 6px;
+  border-radius: 30px;
+  transform: translateX(-50%);
+  background-color: var(--hover-active-color);
+}
+
+.calendar .day.day:hover.event::after {
+  background-color: #fff;
+}
+
+.calendar .day.active.event::after {
+  background-color: #fff;
+  bottom: 20%;
+}
+
+.calendar .day.active.event {
+  padding-bottom: 10px;
+}
+
+#calendar .notes {
+  background: linear-gradient(280deg, var(--btn-bg-color) 0%, #42723fca 80%);
+  padding: 0;
+  position: relative;
+  height: 60vh;
+}
+
+#calendar .notes .today-date {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: calc(0.4rem + 2vw);
+  padding-right: calc(0.4rem + 2vw);
+  margin-top: 1.8vw;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+
+#calendar .notes .today-date .event-day {
+  font-size: calc(0.5rem + 1vw);
+  font-weight: 500;
+  color: #132313d8;
+}
+
+#calendar .notes .today-date .event-date {
+  font-size: calc(0.5rem + 0.6vw);
+  font-weight: 400;
+  color: var(--today-eventTime-AddEventBtnHover-color);
+  opacity: 0.6;
+}
+
+#calendar .notes .events {
+  height: 42vh;
+  max-height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4px;
+}
+
+#calendar .events .event {
+  position: relative;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+  color: #fff;
+  background: linear-gradient(90deg, var(--btn-bg-color), transparent);
+  cursor: pointer;
+}
+
+/* even event */
+#calendar .events .event:nth-child(even) {
+  background: transparent;
+}
+
+#calendar .events .event:hover {
+  background: linear-gradient(90deg, #42723fca, transparent);
+}
+
+/* Strike out the event */
+#calendar .events .event.strikeOut .title h3 {
+  text-decoration: line-through;
+  color: var(--placeholder-color);
+}
+
+#calendar .events .event.strikeOut .event-time,
+#calendar .events .event:hover.strikeOut .event-time {
+  color: var(--placeholder-color);
+}
+
+#calendar .events .event.strikeOut .strikeThroughBtn {
+  color: var(--main-font-color);
+}
+
+#calendar .events .event i.strikeThroughBtn:hover {
+  color: #fff;
+}
+
+#calendar .events .event button.strikeThroughBtn:focus i {
+  color: transparent;
+}
+
+#calendar .events .event.strikeOut i.strikeThroughBtn:hover {
+  color: var(--hover-active-color);
+}
+
+#calendar .events .event.strikeOut button.strikeThroughBtn:focus i {
+  color: var(--main-font-color);
+}
+
+/* *** */
+
+#calendar .events .event .title {
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  width: 90%;
+  padding-top: 5px;
+}
+
+#calendar .events .event .title .event-title {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-left: 20px;
+}
+
+#calendar .events .event i.circle {
+  font-size: 0.5rem;
+}
+
+#calendar .events .event i.fa-gear {
+  margin-left: -0.2rem;
+}
+
+#calendar .events .event i.circle,
+#calendar .events .event i.deleteEventBtn {
+  color: var(--hover-active-color);
+}
+
+#calendar .events .event:hover i.circle,
+#calendar .events .event i.deleteEventBtn:hover {
+  color: #fff;
+}
+
+/* Adjust a button to strike out the event */
+.calendar .events button.strikeThroughBtn {
+  position: absolute;
+  right: 18px;
+  background: none;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+
+}
+
+.calendar .events button .strikeThroughBtn {
+  border: 1px solid var(--hover-active-color);
+  border-radius: 50%;
+  background-color: var(--today-eventTime-AddEventBtnHover-color);
+  color: transparent;
+}
+
+/* Adjust a button to delete event */
+.calendar .events button.deleteEventBtn {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+
+}
+
+#calendar .events .event .event-time {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--today-eventTime-AddEventBtnHover-color);
+  opacity: 0.9;
+  margin-left: 15px;
+  pointer-events: none;
+  padding-bottom: 5px;
+}
+
+#calendar .events .event:hover .event-time {
+  color: #fff;
+}
+
+#calendar .events .event::after {
+  /* content: "✓"; */
+  position: absolute;
+  top: 50%;
+  right: 0;
+  font-size: 3rem;
+  line-height: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  color: var(--today-eventTime-AddEventBtnHover-color);
+  transform: translateY(-50%);
+}
+
+#calendar .events .event:hover::after {
+  display: flex;
+}
+
+#calendar .events .no-event {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--today-eventTime-AddEventBtnHover-color);
+}
+
+#calendar .events .no-event h3 {
+  font-size: calc(0.7rem + 1.2vw);
+  opacity: 0.8;
+}
+
+#calendar .notes .add-event-wrapper {
+  position: absolute;
+  bottom: 7vh;
+  left: 50%;
+  width: 87%;
+  max-height: 0px;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #fff;
+  transform: translateX(-50%);
+  transition: max-height 0.5s;
+}
+
+#calendar .notes .add-event-wrapper.active {
+  max-height: 300px;
+}
+
+.add-event-header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: var(--main-font-color);
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.add-event-header .close {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.add-event-header .close:hover {
+  color: var(--btn-bg-color);
+}
+
+.add-event-header .title {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.add-event-body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px 20px 10px 20px;
+}
+
+.add-event-body .add-event-input {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.add-event-body .add-event-input input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #f5f5f5;
+  padding: 0 10px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #373c4f;
+}
+
+.add-event-body .add-event-input input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.add-event-body .add-event-input input:focus {
+  border-bottom: 1px solid var(--hover-active-color);
+}
+
+.add-event-body .add-event-input input:focus::placeholder {
+  color: var(--hover-active-color);
+}
+
+.add-event-body .add-event-input input.error,
+.add-event-body .add-event-input input:focus.error,
+.add-event-body .add-event-input .react-time-picker.error input:focus {
+  border-color: var(--danger-error-color);
+}
+
+.add-event-body .add-event-input input.error::placeholder,
+.add-event-body .add-event-input input:focus.error::placeholder,
+.add-event-body .add-event-input .react-time-picker.error input::placeholder,
+.add-event-body .add-event-input .react-time-picker.error input:focus::placeholder {
+  color: var(--danger-error-hover-color);
+}
+
+/* Adjust time picker */
+.add-event-body .add-event-input .react-time-picker {
+  margin: 0 auto;
+}
+
+.add-event-body .add-event-input .react-time-picker.error {
+  border: 1px solid var(--danger-error-color);
+}
+
+.add-event-body .add-event-input .react-time-picker.error input {
+  border-bottom: 1px solid var(--danger-error-color);
+}
+
+.add-event-body .add-event-input .react-time-picker__wrapper {
+  border: none;
+  background-color: #f5f5f5;
+}
+
+.add-event-body .add-event-input .react-time-picker__clear-button svg line {
+  stroke: var(--main-font-color) !important;
+}
+
+.add-event-body .add-event-input .react-time-picker__clear-button svg:hover line {
+  stroke: var(--btn-bg-color) !important;
+}
+
+.add-event-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.add-event-footer .add-event-btn {
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  color: #fff;
+  background-color: var(--main-font-color);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid var(--btn-bg-color);
+}
+
+.add-event-footer .add-event-btn:hover {
+  background-color: var(--btn-bg-color);
+}
+
+#buttAddEvent {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--today-eventTime-AddEventBtnHover-color);
+  border: none;
+  opacity: 0.5;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+#buttAddEvent:hover {
+  opacity: 1;
+}
+
+#buttAddEvent i {
+  pointer-events: none;
+}
+
+
+/* Delete Event Component */
+
+.calendar .deleteEvent {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 450px;
+  height: 280px;
+  text-align: center;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, .3);
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .3);
+  font-family: 'Roboto', sans-serif;
+}
+
+.calendar .deleteEvent h2 {
+  background-color: rgba(44, 79, 42, 0.847);
+  color: #e5e3e2;
+  padding: 15px 30px;
+  text-align: start;
+  font-size: 1.4rem;
+  position: relative;
+}
+
+.calendar .deleteEvent i {
+  color: rgb(255, 255, 255);
+  font-size: 2rem;
+  left: 50%;
+  top: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.calendar .deleteEvent p {
+  color: #585858;
+  margin: 45px 30px 35px 30px;
+  font-size: 1.2rem;
+}
+
+.calendar .deleteEvent button {
+  height: 40px;
+  width: 120px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 10px;
+}
+
+.calendar .deleteEvent button#deleteButton {
+  color: #fff;
+  background-color: var(--danger-error-color);
+  border: 1px solid #f31f1f;
+
+}
+
+
+.calendar .deleteEvent button#deleteButton:hover {
+  background-color: #d05252;
+  color: #fff;
+}
+
+.calendar .deleteEvent button#closeButton {
+  border: 1px solid #a4a3a3;
+}
+
+.calendar .deleteEvent button#closeButton:hover {
+  background-color: #e1e0e0;
+}
+
+
+/* media queries */
+
+@media screen and (max-width: 991px) {
+
+  #root {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  #root .card {
+    position: relative;
+    height: 100vh;
+    padding-top: 50%;
+  }
+
+  body .calendar {
+    position: relative;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: 0;
+  }
+
+  .calendar #calendar-table {
+    height: calc(var(--vh, 1vh) * 56);
+  }
+
+  .calendar .notes {
+    min-height: 360px;
+    padding-bottom: 20px;
+  }
+
+  .calendar #calendar-table #headerMonth {
+    font-size: 1.6rem;
+    height: calc(var(--vh, 1vh) * 56/8);
+    padding-top: 10px;
+  }
+
+  .calendar #calendar-table #buttPrev,
+  .calendar #calendar-table #buttNext {
+    padding-top: 15px;
+    font-size: 1rem;
+  }
+
+  .calendar #calendar-table #weekdays {
+    height: calc(var(--vh, 1vh) * 56/8);
+  }
+
+  .calendar #calendar-table #weekdays,
+  .calendar #calendar-table #calendarBody {
+    font-size: 1rem;
+    padding: 0px 10px;
+  }
+
+  .day {
+    width: 14.28%;
+    height: calc(var(--vh, 1vh) * 56/8);
+  }
+
+  .calendar .day.active {
+    position: relative;
+    font-size: 1.3rem;
+  }
+
+  #calendar .notes {
+    max-height: calc(var(--vh, 1vh) * 44);
+    min-height: calc(var(--vh, 1vh) * 44);
+  }
+
+  #calendar .notes .today-date {
+    padding: 0 30px;
+    padding-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+
+  #calendar .notes .today-date .event-day {
+    font-size: 1.4rem;
+  }
+
+  #calendar .notes .today-date .event-date {
+    font-size: 1.2rem;
+  }
+
+  #calendar .notes .events {
+    height: 27vh;
+  }
+
+  #calendar .events .event {
+    display: flex;
+    padding: 3px 20px;
+  }
+
+  #calendar .events .event .title .event-title {
+    font-size: 1.1rem;
+    padding-top: 5px;
+  }
+
+  #calendar .events .no-event h3 {
+    font-size: 1.5rem;
+  }
+
+  #buttAddEvent {
+    font-size: 1.8rem;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  #calendar .notes .add-event-wrapper.active {
+    max-height: 250px;
+  }
+
+  .add-event-footer {
+    padding: 5px 0px 12px 0px;
+  }
+
+  .add-event-header .title {
+    font-size: 1.2rem;
+  }
+
+  .add-event-header .close {
+    font-size: 1.2rem;
+  }
+
+  .add-event-body {
+    padding: 10px;
+  }
+
+  .add-event-body .add-event-input {
+    height: 35px;
+  }
+
+  .add-event-body .add-event-input input {
+    font-size: 1rem;
+  }
+
+  .add-event-footer .add-event-btn {
+    font-size: 0.9rem;
+  }
+
+  /* Delete module */
+
+  .calendar .deleteEvent {
+    width: 240px;
+    height: 160px;
+  }
+
+  .calendar .deleteEvent h2 {
+    font-size: 0.9rem;
+    padding: 10px 10px;
+  }
+
+  .calendar .deleteEvent i {
+    font-size: 1.3rem;
+  }
+
+  .calendar .deleteEvent p {
+    margin: 20px;
+    font-size: 0.8rem;
+  }
+
+  .calendar .deleteEvent button {
+    height: 25px;
+    width: 70px;
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #root .card {
+    padding-top: 65%;
+    height: 100vh;
+  }
+}
